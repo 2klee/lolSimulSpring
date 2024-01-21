@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> <!-- 파비콘 -->
+
+
+    <link rel="stylesheet" type="text/css" href="/css/dropdowns.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+
+
+<!--    <link rel="stylesheet" type="text/css" href="/css/animate.css">-->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+
+
+    <title>Carry.kr</title> <!-- 타이틀 -->
+</head>
+
+<body>
+<div id="wrap">
+    <!-- 헤더영역 -->
+    <header id="header" class="header-area header-transparrent fixed-top">
+        <div class="main-header header-sticky">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex align-items-center justify-content-center">
+                        <!-- 로고 -->
+                        <a href="/" class="text-decoration-none"><h1
+                                class="yellow-text grape_nuts_font font-weight-bold">carry.kr</h1></a>
+                    </div>
+                    <!-- 메뉴 -->
+                    <nav id="mainNav" class="nav col-9 justify-content-center">
+                        <ul class="gnb align-items-center font-weight-bold">
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#" onclick="loadMainContent('dealMeter')">딜미터기</a></li>
+                            <li><a href="#">아이템순위</a></li>
+                            <li><a href="#">프로빌드</a></li>
+                            <li><a href="#">커뮤니티</a></li>
+                        </ul>
+                    </nav>
+                    <div id="searching" class="col d-flex align-items-center justify-content-center">
+
+                        <iconify-icon icon="ic:twotone-search" width="30"
+                                              height="30"></iconify-icon>
+                    </div>
+
+                    <!-- 작은 화면용 팝업창-->
+                    <button id="fullscreen-trigger">
+                        <iconify-icon icon="fa:navicon" style="color: white" width="30"></iconify-icon>
+                    </button>
+
+                    <div id="fullscreen-overlay">
+                        <button id="fullscreen-closed" class="text-right">
+                            <iconify-icon icon="vaadin:close" style="color: white" width="30"></iconify-icon>
+                        </button>
+                        <ul>
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#">딜미터기</a></li>
+                            <li><a href="#">커뮤니티</a></li>
+                        </ul>
+                    </div>
+                    <!-- 작은 화면용 팝업창 E-->
+                </div>
+            </div>
+            <!--서브 메뉴-->
+            <div id="sub_nav" class="row" style="margin-top: 0.4rem; border-bottom: solid 1px #000000">
+                <div class="col"></div>
+                <div class="col nav justify-content-center" style="padding-left : 1rem; gap: 5rem;">
+                    <ul class="align-items-center">
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="#">패치노트</a></li>
+                    </ul>
+                    <ul class="align-items-center">
+                        <li><a href="#" onclick="loadMainContent('dealMeter')">딜미터기</a></li>
+                    </ul>
+                    <ul class="align-items-center">
+                        <li><a href="#">아이템순위</a></li>
+                    </ul>
+                    <ul class="align-items-center">
+                        <li><a href="#">프로빌드</a></li>
+                    </ul>
+                    <ul class="align-items-center">
+                        <li><a href="#" onclick="loadMainContent('tableBasic')">자유게시판</a></li>
+                        <li><a href="#">유머게시판</a></li>
+                        <li><a href="#">아이템공유</a></li>
+                        <li><a href="#">매드무비</a></li>
+                        <li><a href="#">커뮤니티</a></li>
+                    </ul>
+                </div>
+                <div class="col"></div>
+            </div>
+            <!-- 전체 검색창 띄우기 -->
+            <div th:id="searchForm" class="searchForm">
+                <form>
+                    <table style="height: 180px;">
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+    </header>
+    <!-- 헤더영역 E -->
+
+    <!-- 메인영역 -->
+    <div id="main" style="height: 3000px;">
+
+    </div>
+    <!-- 메인영역 E -->
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<script src="/js/jquery.sticky.js"></script>
+
+
+<script> // 특정 영역에 페이지 로딩
+    function loadMainContent(page) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById("main").innerHTML = xhr.responseText;
+
+            }
+        };
+        xhr.open("GET", "/" + page, true);
+        xhr.send();
+    };
+</script>
+
+<script> // 네비바에 마우스 오버시 서브메뉴 표출
+    document.addEventListener("DOMContentLoaded", function () {
+        var navElement = document.querySelector('.nav');
+        var subNavElement = document.getElementById('sub_nav');
+
+        navElement.addEventListener("mouseenter", function () {
+            subNavElement.style.maxHeight = "180px"; // 원하는 최대 높이로 설정하세요.
+        });
+
+        navElement.addEventListener("mouseleave", function () {
+            subNavElement.style.maxHeight = "0";
+        });
+
+        subNavElement.addEventListener("mouseenter", function () {
+            subNavElement.style.maxHeight = "180px"; // 원하는 최대 높이로 설정하세요.
+        });
+
+        subNavElement.addEventListener("mouseleave", function () {
+            subNavElement.style.maxHeight = "0";
+        });
+    });
+</script>
+
+<script> // 검색 아이콘 마우스 오버 시 전체 검색창 표시
+document.addEventListener("DOMContentLoaded", function () {
+    var searchElement = document.getElementById('searching');
+    var searchFormElement = document.getElementById('searchForm');
+
+    searchElement.addEventListener("mouseenter", function () {
+        searchFormElement.style.maxHeight = "180px"; // 원하는 최대 높이로 설정하세요.
+    });
+
+    searchElement.addEventListener("mouseleave", function () {
+        searchFormElement.style.maxHeight = "0";
+    });
+
+    searchFormElement.addEventListener("mouseenter", function () {
+        searchFormElement.style.maxHeight = "180px"; // 원하는 최대 높이로 설정하세요.
+    });
+
+    searchFormElement.addEventListener("mouseleave", function () {
+        searchFormElement.style.maxHeight = "0";
+    });
+});
+</script>
+
+<!--<script>  // 스크롤을 위로 올리는 스티키바-->
+<!--    $(window).on('scroll', function () {-->
+<!--        var scroll = $(window).scrollTop();-->
+<!--        if (scroll < 245) {-->
+<!--            $(".header-sticky").removeClass("sticky-bar");-->
+<!--        } else {-->
+<!--            $(".header-sticky").addClass("sticky-bar");-->
+<!--        }-->
+<!--    });-->
+
+<!--    $(window).on('scroll', function () {-->
+<!--        var scroll = $(window).scrollTop();-->
+<!--        if (scroll < 245) {-->
+<!--            $(".header-sticky").removeClass("sticky");-->
+<!--        } else {-->
+<!--            $(".header-sticky").addClass("sticky");-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
+
+<script>  //스크롤 내리면 헤더영역 애니메이션
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 100) {
+            $("#header").addClass("animated");
+        } else {
+            $("#header").removeClass('animated');
+        }
+    });
+</script>
+
+
+</body>
+
+</html>
